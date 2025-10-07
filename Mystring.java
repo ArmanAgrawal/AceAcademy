@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Mystring {
+public class Mystring { 
 
     private StringBuilder sb;
 
