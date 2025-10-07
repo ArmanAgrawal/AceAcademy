@@ -132,49 +132,47 @@ public class Mystring {
         System.out.println(sb.toString());
     }
 
-    public void sort() {
-        char[] arr = new char[sb.length()];
-        for (int i = 0; i < sb.length(); i++)
-            arr[i] = sb.charAt(i);
+   public void sort() {
+    char[] arr = new char[sb.length()];
+    for (int i = 0; i < sb.length(); i++)
+        arr[i] = sb.charAt(i);
 
-        quicksort(arr, 0, sb.length() - 1);
-        sb.setLength(0);
-        sb.append(arr);
-        System.out.println(sb.toString());
+    mergeSort(arr, 0, arr.length - 1);
+
+    sb.setLength(0);
+    sb.append(arr);
+    System.out.println(sb.toString());
+}
+
+void mergeSort(char[] arr, int left, int right) {
+    if (left >= right)
+        return;
+
+    int mid = left + (right - left) / 2;
+    mergeSort(arr, left, mid);
+    mergeSort(arr, mid + 1, right);
+    merge(arr, left, mid, right);
+}
+
+void merge(char[] arr, int left, int mid, int right) {
+    int i = left, j = mid + 1;
+    StringBuilder temp = new StringBuilder();
+
+    while (i <= mid && j <= right) {
+        if (arr[i] <= arr[j])
+            temp.append(arr[i++]);
+        else
+            temp.append(arr[j++]);
     }
 
-    void quicksort(char[] arr, int s, int e) {
-        if (s >= e)
-            return;
-        int pivot = calpivot(arr, s, e);
-        quicksort(arr, s, pivot - 1);
-        quicksort(arr, pivot + 1, e);
-    }
+    while (i <= mid) temp.append(arr[i++]);
 
-    int calpivot(char[] arr, int s, int e) {
-        char p = arr[s];
-        int i = s + 1;
-        int j = e;
-        while (i <= j) {
-            while (i <= e && arr[i] < p) {
-                i++;
-            }
-            while (j > s && arr[j] >= p) {
-                j--;
-            }
-            if (i < j) {
-                char temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
-                i++;
-                j--;
-            }
-        }
-        char temp = arr[s];
-        arr[s] = arr[j];
-        arr[j] = temp;
-        return j;
+    while (j <= right) temp.append(arr[j++]);
+
+    for (int k = 0; k < temp.length(); k++) {
+        arr[left + k] = temp.charAt(k);
     }
+}
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -261,12 +259,12 @@ public class Mystring {
                     break;
 
                 case 0:
-                    System.out.println("Exiting program...");
+                    System.out.println("Exiting program");
                     sc.close();
                     return;
 
                 default:
-                    System.out.println("Invalid choice! Please try again.");
+                    System.out.println("Invalid choice");
             }
         }
     }
